@@ -1,25 +1,29 @@
-import logo from './logo.svg';
+import React, { createContext } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const BatteryContext = createContext()
+
+const Leaf = () => (<BatteryContext.Consumer>{battery=><h1>battery:{battery}</h1>}</BatteryContext.Consumer>)
+const Middle = () => <Leaf />
+
+class App extends React.Component {
+  state = {
+    battery : 60
+  }
+  render(){
+    const {battery} = this.state
+    return (
+      <BatteryContext.Provider value={battery}>
+        <button 
+          type="button"
+          onClick={()=>this.setState({battery:battery-1})}>
+            countDown
+        </button>
+        <Middle />
+      </BatteryContext.Provider>
+    )
+  }
+}   
+
 
 export default App;
