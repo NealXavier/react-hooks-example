@@ -1,10 +1,18 @@
-import React, { createContext } from 'react';
+import React, { Component, createContext } from 'react';
 import './App.css';
 
 const BatteryContext = createContext(90) // setDefaultvalue
 const OnlineContext = createContext(true)
 
-const Leaf = () => (<BatteryContext.Consumer>{battery=><OnlineContext.Consumer>{online=><h1>battery:{battery},online:{+online}</h1>}</OnlineContext.Consumer>}</BatteryContext.Consumer>)
+class Leaf extends Component{
+  // remove consumer
+  static contextType = BatteryContext
+  render(){
+    const battery = this.context
+    return (<h1>battery:{battery}</h1>)
+  }
+}
+
 const Middle = () => <Leaf />
 
 class App extends React.Component {
