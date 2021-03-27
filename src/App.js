@@ -1,46 +1,37 @@
-import React, { Component, createContext } from 'react';
+import React, { Component,lazy,Suspense } from 'react';
 import './App.css';
 
-const BatteryContext = createContext(90) // setDefaultvalue
-const OnlineContext = createContext(true)
+const About = lazy(()=>import(/*webpackChunkName: "about" */'./About'))
 
-class Leaf extends Component{
-  // remove consumer
-  static contextType = BatteryContext
-  render(){
-    const battery = this.context
-    return (<h1>battery:{battery}</h1>)
-  }
-}
 
-const Middle = () => <Leaf />
+//  when i block 'chunk.about.js' or  it fetch causes error have to create ErrorBoundary (refer to image2.png)
+//  method 1: componentDidCatch
+//  method 2: getDerivedStateFromError
 
-class App extends React.Component {
+class App extends Component {
   state = {
-    battery : 60,
-    online : true
+    hasError:false
   }
+  // componentDidCatch(){this.setState({error:true})}
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
   render(){
-    const {battery,online} = this.state
+    const {hasError} = this.state
+    // suspend works while component rendering
+    if(hasError){
+      return (<div>hasError</div>)
+    }
     return (
-      // <BatteryContext.Provider value={battery}>
-        <OnlineContext.Provider value={online}>
-          <button 
-            type="button"
-            onClick={()=>this.setState({battery:battery-1})}>
-              countDown
-          </button>
-          <button 
-            type="button"
-            onClick={()=>this.setState({online:!online})}>
-              switch
-          </button>
-          <Middle />
-        </OnlineContext.Provider>
-      // </BatteryContext.Provider>
+      <> 
+      <Suspense fallback={<div>loading</div>}>
+        <About></About>
+      </Suspense>
+      </>
     )
   }
-}   
+} 
 
 
 export default App;
