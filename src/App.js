@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // let id = 1
-const App = () => {
+const App = (props) => {
   // let name,setName;
   // let count,setCount;
 
@@ -16,7 +16,14 @@ const App = () => {
   //   [name,setName] = useState('mike')
   //   [count,setCount] = useState(0)
   // }
-  const [count,setCount] = useState(0)
+
+
+  // when `defaultCount` runs much time, and runs when render every time, now provide a function in `useState`
+  // will runs once when initial first time.
+  // const defaultCount = props.defaultCount || 0
+  const [count,setCount] = useState(()=>{
+    return props.defaultCount || 0
+  })
 
   return (
       <> 
