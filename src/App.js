@@ -22,6 +22,7 @@ const App = (props) => {
   // will runs once when initial first time.
   // const defaultCount = props.defaultCount || 0
   const [count,setCount] = useState(()=>{
+    console.log('defaultCount:')
     return props.defaultCount || 0
   })
 
