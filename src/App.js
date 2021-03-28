@@ -1,37 +1,29 @@
-import React, { Component,lazy,Suspense } from 'react';
-import './App.css';
+import React, { useState } from 'react';
 
-const About = lazy(()=>import(/*webpackChunkName: "about" */'./About'))
+// let id = 1
+const App = () => {
+  // let name,setName;
+  // let count,setCount;
 
+  // id+=1
+  // React Hook "useState" is called conditionally. React Hooks must be called 
+  // in the exact same order in every component render  react-hooks/rules-of-hooks
+  // odd times
+  // if(id & 1){
+  //   [count,setCount] = useState(0);
+  //   [name,setName] = useState(`mike`)
+  // }else{
+  //   [name,setName] = useState('mike')
+  //   [count,setCount] = useState(0)
+  // }
+  const [count,setCount] = useState(0)
 
-//  when i block 'chunk.about.js' or  it fetch causes error have to create ErrorBoundary (refer to image2.png)
-//  method 1: componentDidCatch
-//  method 2: getDerivedStateFromError
-
-class App extends Component {
-  state = {
-    hasError:false
-  }
-  // componentDidCatch(){this.setState({error:true})}
-  static getDerivedStateFromError(error) {
-    return { hasError: true };
-  }
-
-  render(){
-    const {hasError} = this.state
-    // suspend works while component rendering
-    if(hasError){
-      return (<div>hasError</div>)
-    }
-    return (
+  return (
       <> 
-      <Suspense fallback={<div>loading</div>}>
-        <About></About>
-      </Suspense>
+        count: {count} <br/>
+        <button type="button" onClick={()=>{setCount(count+1)}}>onPress</button>
       </>
-    )
-  }
-} 
-
+  )
+}
 
 export default App;
