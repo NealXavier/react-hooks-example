@@ -9,6 +9,7 @@ const Counter = () => {
   )
 }
 
+// remove consumer instead of `useContext`
 const App = (props) => {
   const count = useState(1)
   return (
